@@ -1,0 +1,81 @@
+{
+    "project": {},
+    "files": {
+        "lib/alarm.js": {
+            "name": "lib/alarm.js",
+            "modules": {},
+            "classes": {
+                "Alarm": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Alarm": {
+            "name": "Alarm",
+            "shortname": "Alarm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/alarm.js",
+            "line": 7,
+            "description": "AlarmJS, an alaram clock for Node.js and the command line.",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "A config object",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "file",
+                            "description": "A path to a MP3 file to be player",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "asset/alarm.mp3"
+                        },
+                        {
+                            "name": "hour",
+                            "description": "The hour when the alarm will go on",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "minutes",
+                            "description": "The minutes where the alarm will go on",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "seconds",
+                            "description": "The seconds where the alarm will go on",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "0"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "An event emitter",
+                "type": "Object"
+            },
+            "example": [
+                "\n    var alarm = require('alarmjs');\n    var a = new alarm({\n        file : 'musics/AC_DC/TNT.mp3',\n        hour : 8,\n        minutes : 34,\n        seconds : 30\n    });"
+            ]
+        }
+    },
+    "classitems": [],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/alarm.js:7"
+        }
+    ]
+}

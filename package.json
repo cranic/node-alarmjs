@@ -1,0 +1,36 @@
+{
+  "name": "alarmjs",
+  "version": "0.0.1",
+  "description": "An alarm clock for Node.js and command line.",
+  "main": "lib/alarm.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cranic/node-alarmjs"
+  },
+  "keywords": [
+    "alarm"
+  ],
+  "author": "Cranic Tecnologia <contato@cranic.com.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cranic/node-alarmjs/issues"
+  },
+  "bin" : {
+    "alarmjs" : "./bin/alarmjs"
+  },
+  "homepage": "https://github.com/cranic/node-alarmjs",
+  "dependencies": {
+    "moment": "^2.5.1",
+    "bluebird": "^1.1.0",
+    "player": "^0.1.4",
+    "ansi": "^0.2.1",
+    "commander": "^2.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.17.1",
+    "yuidocjs": "^0.3.49"
+  }
+}

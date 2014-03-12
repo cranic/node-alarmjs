@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+
+var ansi = require('ansi');
+var cursor = ansi(process.stdout);
+var alarm = require(__dirname + '/../');
+var moment = require('moment');
+var args = require('commander');
+var pkg = require(__dirname + '/../package.json');
+var util = require('util');
+
+args
+    .version(pkg.version)
+    .option('-f, --file [Path]', 'An MP3 file to be played')
+    .option('-o, --hour <Number>', 'The hour that the alarm will start', parseInt)
+    .option('-m, --minutes [Number]', 'The minutes that the alarm will start', parseInt)
+    .option('-s, --seconds [Number]', 'The seconds that the alarm will start', parseInt)
+    .on('--help', function(){
+        console.log('  Examples:');
+        console.log('');
+        console.log('    $ alarmjs --hour 8 --minutes 30 --file ~/music/AC_DC/TNT.mp3');
+        console.log('    $ alarmjs --hour 8');
+        console.log('');
+    })
+    .parse(process.argv);
+
+if(!args.hour){
+    args.help();
+    process.exit();
+}
+
+var date = moment()
+    .hours(args.hour)
+    .minutes(args.minutes || 0)
+    .seconds(args.seconds || 0);
+
+if(date.isBefore(moment()))
+    date.add('days', 1);
+
+var clear = function(){
+    for(var i = 1; i <= process.stdout.getWindowSize()[1]; i++){
+        cursor.goto(0, i).eraseLine();
+    }
+
+    cursor.goto(0, 1);
+};
+
+var tick = function(){
+    clear();
+    var duration = moment.duration(date.diff(moment()), 'ms');
+    cursor.hex('#fff').bold();
+    cursor.goto(0, 1).write('Alarm countdown:');
+    cursor.reset();
+    cursor.write(util.format(
+        ' %s hours, %s minutes and %s seconds',
+        duration.hours(),
+        duration.minutes(),
+        duration.seconds()
+    ));
+    cursor.hex('#ff0000').bold();
+    cursor.goto(0, 2);
+    cursor.write('WARNING: ');
+    cursor.reset();
+    cursor.write('don\'t forget to raise and unmute your computer\'s volume.');
+};
+
+process.stdin.resume();
+cursor.hide();
+
+process.on('SIGINT', function() {
+    clear();
+    cursor.reset();
+    cursor.show();
+    process.exit();
+});
+
+var a = new alarm(args);
+
+a.on('error', function(err){
+    console.log('Error:', err.message);
+
+    process.exit();
+});
+
+a.on('tick', tick);
+
+a.on('on', function(){
+    clear();
+    cursor.hex('#ff0000').bold();
+    cursor.goto(0, 1).write('IT\'S TIME TO WAKE UP, BUDDY!');
+    cursor.reset();
+
+    cursor.goto(0, 3);
+    cursor.write('Press CTRL + C to stop.');
+});
+
+tick();
+
